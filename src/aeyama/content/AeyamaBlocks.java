@@ -11,6 +11,10 @@ public class AeyamaBlocks {
     wallWoodTree;
 
     public static void load() {
+        //#region Production
+        
+        //#endregion
+
         //#region Environment
         floorStoneSlate = new Floor("floor-stone-slate") {{
             itemDrop = AeyamaItems.stone;
