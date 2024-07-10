@@ -1,10 +1,14 @@
 package aeyama.content;
 
+import mindustry.content.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
+
+import aeyama.world.block.*;
+import aeyama.world.block.module.*;
 
 import static mindustry.type.ItemStack.*;
 
@@ -12,12 +16,27 @@ public class AeyamaBlocks {
     public static Block
     basicCutter, basicMiner,
 
+    moduleTest, moduleableTest,
+
     floorStoneSlate, floorStoneGranite, floorStoneLimestone, floorStoneSandstone,
     floorStoneMarble,
 
     wallWoodTree;
 
     public static void load() {
+        moduleTest = new ModuleBlock("module-test") {{
+            health = 20;
+            size = 1;
+
+            requirements(Category.effect, with(Items.copper, 1));
+        }};
+        moduleableTest = new ModuleableBlock("moduleable-test", 1) {{
+            health = 50;
+            size = 3;
+
+            requirements(Category.production, with(Items.copper, 1));
+        }};
+
         //#region Production
         basicCutter = new WallCrafter("basic-cutter") {{
             size = 2;
