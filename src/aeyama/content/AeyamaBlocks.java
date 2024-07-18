@@ -16,7 +16,7 @@ public class AeyamaBlocks {
     public static Block
     basicCutter, basicMiner,
 
-    moduleTest, moduleableTest,
+    moduleTest, moduleableTest, moduleableTestTwo, moduleableTestThree, moduleableFour,
 
     floorStoneSlate, floorStoneGranite, floorStoneLimestone, floorStoneSandstone,
     floorStoneMarble,
@@ -30,11 +30,30 @@ public class AeyamaBlocks {
 
             requirements(Category.effect, with(Items.copper, 1));
         }};
-        moduleableTest = new ModuleableBlock("moduleable-test", 1) {{
+        
+        moduleableTest = new ModuleableBlock("moduleable-test", 3) {{
             health = 50;
             size = 3;
 
-            requirements(Category.production, with(Items.copper, 1));
+            requirements(Category.effect, with(Items.copper, 1));
+        }};
+        moduleableTestTwo = new ModuleableBlock("moduleable-test-two", 2) {{
+            health = 50;
+            size = 2;
+
+            requirements(Category.effect, with(Items.copper, 102));
+        }};
+        moduleableTestThree = new ModuleableBlock("moduleable-test-three", 5) {{
+            health = 50;
+            size = 4;
+
+            requirements(Category.effect, with(Items.copper, 3));
+        }};
+        moduleableFour = new ModuleableBlock("modueable-test-four", 5) {{
+            health = 50;
+            size = 5;
+
+            requirements(Category.effect, with(Items.copper, 3));
         }};
 
         //#region Production
