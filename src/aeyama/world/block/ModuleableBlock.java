@@ -53,11 +53,7 @@ public class ModuleableBlock extends Block {
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         super.drawPlanRegion(plan, list);
 
-        // '* tilesize' to convert the coordinates to World Unit
-        // '+ tilesize / 2f' is to fix a weird offset with plan with a peer size
-        float posX = (size % 2 == 0) ? plan.x * tilesize + tilesize / 2f : plan.x * tilesize;
-        float posY = (size % 2 == 0) ? plan.y * tilesize + tilesize / 2f : plan.y * tilesize;
-        drawModuleSlots(posX, posY, plan.block.size, plan.rotation);
+        drawModuleSlots(plan.getX(), plan.getY(), plan.block.size, plan.rotation);
     }
 
     public void drawModuleSlots(float x, float y, int size, int rotation) {
