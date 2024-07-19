@@ -13,8 +13,8 @@ import static mindustry.Vars.tilesize;
 public class ModuleableBlock extends Block {
     /** The amount of available module slots to the player. */
     public int moduleSlots;
+    private TextureRegion moduleSlotTexture;
 
-    //TODO fix rotation not changing rotation value
     public ModuleableBlock(String name, int moduleSlots) {        
         super(name);
 
@@ -43,35 +43,66 @@ public class ModuleableBlock extends Block {
     }
 
     @Override
+    public void load() {
+        super.load();
+
+        moduleSlotTexture = Core.atlas.find("aeyama-module-slot");
+    }
+
+    @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         super.drawPlanRegion(plan, list);
 
+        // '* tilesize' to convert the coordinates to World Unit
+        // '+ tilesize / 2f' is to fix a weird offset with plan with a peer size
+        float posX = (size % 2 == 0) ? plan.x * tilesize + tilesize / 2f : plan.x * tilesize;
+        float posY = (size % 2 == 0) ? plan.y * tilesize + tilesize / 2f : plan.y * tilesize;
+        drawModuleSlots(posX, posY, plan.block.size, plan.rotation);
+    }
+
+    public void drawModuleSlots(float x, float y, int size, int rotation) {
+        float slotPosX = 0f;
+        float slotPosY = 0f;
+
+        switch (rotation) {
+            case 0: // Right
+                slotPosX = x + (size / 2f * tilesize + tilesize / 2f);
+                slotPosY = y + (size / 2f * tilesize - tilesize / 2f);
+                break;
+
+            case 1: // Up
+                slotPosX = x - (size / 2f * tilesize - tilesize / 2f);
+                slotPosY = y + (size / 2f * tilesize + tilesize / 2f);
+                break;
+
+            case 2: // Left
+                slotPosX = x - (size / 2f * tilesize + tilesize / 2f);
+                slotPosY = y + (size / 2f * tilesize - tilesize / 2f);
+                break;
+
+            case 3: // Down
+                slotPosX = x - (size / 2f * tilesize - tilesize / 2f);
+                slotPosY = y - (size / 2f * tilesize + tilesize / 2f);
+                break;
+        
+            default: break;
+        }
+
         for (int i=0; i < moduleSlots; i++) {
-            Draw.rect(new TextureRegion(Core.atlas.find("aeyama-module-slot")), 
-            plan.x * tilesize - (plan.block.size / 2f * tilesize - tilesize / 2f) + (i * tilesize),
-            plan.y *tilesize + (plan.block.size / 2f * tilesize + tilesize / 2f),
-            plan.rotation * 90f);
+            float posX = (rotation == 0 || rotation == 2) ? slotPosX : slotPosX + (i * tilesize);
+            float posY = (rotation == 1 || rotation == 3) ? slotPosY : slotPosY - (i * tilesize);
+
+            Draw.rect(moduleSlotTexture, posX, posY);
         }
     }
 
     public class ModuleableBuild extends Building {
-        
-        @Override
-        public void rotation(int rotation) {
-            this.rotation = rotation;
-            Log.info(rotation);
-        }
 
         @Override
         public void draw() {
             super.draw();
 
-            for (int i=0; i < moduleSlots; i++) {
-                Draw.rect(new TextureRegion(Core.atlas.find("aeyama-module-slot")), 
-                          this.x - (this.block.size / 2f * tilesize - tilesize / 2f) + (i * tilesize),
-                          this.y + (this.block.size / 2f * tilesize + tilesize / 2f),
-                          this.rotation * 90f);
-            }
+            drawModuleSlots(this.x, this.y, this.block.size, rotation);
         }
     }
 }
