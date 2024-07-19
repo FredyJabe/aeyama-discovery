@@ -2,11 +2,14 @@ package aeyama.world.block;
 
 import arc.*;
 import arc.graphics.g2d.*;
+import arc.struct.*;
 import arc.util.*;
 
 import mindustry.entities.units.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.world.*;
+import aeyama.world.block.module.ModuleBlock.*;
 
 import static mindustry.Vars.tilesize;
 
@@ -93,12 +96,40 @@ public class ModuleableBlock extends Block {
     }
 
     public class ModuleableBuild extends Building {
+        public Seq<Building> modules = new Seq<Building>();
+
+        @Override
+        public void onProximityUpdate() {
+            proximity.each(this::isModule, t -> {
+                ((ModuleBuild)t).linkedBuild = this;
+                modules.add(t);
+            });
+
+            super.onProximityUpdate();
+        }
+
+        public boolean isModule(Building tile) {
+            return isModule(this, tile);
+        }
+        
+        public boolean isModule(Building build, Building tile) {
+            return tile instanceof ModuleBuild module && (module.linkedBuild == this || module.linkedBuild == null)
+                   && modules.size < moduleSlots && !modules.contains(module);
+        }
 
         @Override
         public void draw() {
             super.draw();
 
             drawModuleSlots(this.x, this.y, this.block.size, rotation);
+        }
+        
+        @Override
+        public void drawSelect() {
+            Drawf.selected(this, Pal.accent);
+            for (Building module : modules) {
+                Drawf.selected(module, Pal.accent);
+            }
         }
     }
 }

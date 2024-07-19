@@ -1,6 +1,7 @@
 package aeyama.world.block.module;
 
 import arc.struct.*;
+import arc.util.*;
 
 import mindustry.*;
 import mindustry.game.*;
@@ -10,20 +11,12 @@ import mindustry.world.*;
 import aeyama.world.block.ModuleableBlock.*;
 
 public class ModuleBlock extends Block {
-    public ModuleType type;
 
-    public ModuleBlock(String name, ModuleType type) {
+    public ModuleBlock(String name) {
         super(name);
 
         solid = true;
         update = true;
-
-        if (type != null)
-            this.type = type;
-    }
-
-    public ModuleBlock(String name) {
-        this(name, null);
     }
 
     //TODO can be placed around no matter of the "slot" placement
@@ -54,7 +47,21 @@ public class ModuleBlock extends Block {
     }
 
     public class ModuleBuild extends Building {
-        
+        public @Nullable Building linkedBuild;
+
+        @Override
+        public void onRemoved() {
+            if (linkedBuild != null)
+                ((ModuleableBuild)linkedBuild).modules.remove(this);
+
+            super.onRemoved();
+        }
+
+        @Override
+        public void drawSelect() {
+            if (linkedBuild != null)
+                linkedBuild.drawSelect();
+        }
     }
     
 }
