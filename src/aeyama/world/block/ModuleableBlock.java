@@ -9,14 +9,20 @@ import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
-import aeyama.world.block.module.ModuleBlock.*;
+import mindustry.world.draw.*;
+
+import aeyama.world.block.ModuleBlock.*;
 
 import static mindustry.Vars.tilesize;
 
 public class ModuleableBlock extends Block {
     /** The amount of available module slots to the player. */
     public int moduleSlots;
+    /** Filter the modules this block accept. */
+    public Seq<String> tags = new Seq<String>();
     private TextureRegion moduleSlotTexture;
+
+    public DrawBlock drawer = new DrawDefault();
 
     public ModuleableBlock(String name, int moduleSlots) {        
         super(name);
@@ -49,12 +55,13 @@ public class ModuleableBlock extends Block {
     public void load() {
         super.load();
 
+        drawer.load(this);
         moduleSlotTexture = Core.atlas.find("aeyama-module-slot");
     }
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        super.drawPlanRegion(plan, list);
+        drawer.drawPlan(this, plan, list);;
 
         drawModuleSlots(plan.getX(), plan.getY(), plan.block.size, plan.rotation);
     }
@@ -95,14 +102,24 @@ public class ModuleableBlock extends Block {
         }
     }
 
+    @Override
+    protected TextureRegion[] icons() {
+        return drawer.finalIcons(this);
+    }
+
+    @Override
+    public void getRegionsToOutline(Seq<TextureRegion> out) {
+        drawer.getRegionsToOutline(this, out);
+    }
+
     public class ModuleableBuild extends Building {
-        public Seq<Building> modules = new Seq<Building>();
+        public Seq<ModuleBuild> modules = new Seq<ModuleBuild>();
 
         @Override
         public void onProximityUpdate() {
-            proximity.each(this::isModule, t -> {
-                ((ModuleBuild)t).linkedBuild = this;
-                modules.add(t);
+            proximity.each(this::isModule, module -> {
+                ((ModuleBuild)module).linkedBuild = this;
+                modules.add((ModuleBuild)module);
             });
 
             super.onProximityUpdate();
@@ -119,9 +136,15 @@ public class ModuleableBlock extends Block {
 
         @Override
         public void draw() {
-            super.draw();
+            drawer.draw(this);
 
             drawModuleSlots(this.x, this.y, this.block.size, rotation);
+        }
+
+        @Override
+        public void drawLight() {
+            super.drawLight();
+            drawer.drawLight(this);
         }
         
         @Override
