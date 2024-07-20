@@ -24,6 +24,11 @@ public class ModuleableBlock extends Block {
 
     public DrawBlock drawer = new DrawDefault();
 
+
+    public ModuleableBlock(String name) {
+        this(name, 0);
+    }
+
     public ModuleableBlock(String name, int moduleSlots) {        
         super(name);
 
@@ -34,10 +39,6 @@ public class ModuleableBlock extends Block {
         drawArrow = false;
 
         this.moduleSlots = moduleSlots;
-    }
-
-    public ModuleableBlock(String name) {
-        this(name, 0);
     }
     
     @Override
@@ -132,6 +133,13 @@ public class ModuleableBlock extends Block {
         public boolean isModule(Building build, Building tile) {
             return tile instanceof ModuleBuild module && (module.linkedBuild == this || module.linkedBuild == null)
                    && modules.size < moduleSlots && !modules.contains(module);
+        }
+
+        @Override
+        public void updateTile() {
+            for (ModuleBuild module : modules) {
+                module.effect(this, this.block);
+            }
         }
 
         @Override
