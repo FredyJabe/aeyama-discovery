@@ -1,4 +1,4 @@
-package aeyama.world.block.module;
+package aeyama.world.block;
 
 import arc.struct.*;
 import arc.util.*;
@@ -11,6 +11,8 @@ import mindustry.world.*;
 import aeyama.world.block.ModuleableBlock.*;
 
 public class ModuleBlock extends Block {
+    /** Filter for ModuleableBlock, 'universal' for all.  */
+    public String tag = "universal";
 
     public ModuleBlock(String name) {
         super(name);
@@ -43,11 +45,14 @@ public class ModuleBlock extends Block {
             }
         }
 
-        return tileAround.contains(o -> o.build instanceof ModuleableBuild);
+        return tileAround.contains(o -> o.build instanceof ModuleableBuild moduleableBuild
+                                        && (((ModuleableBlock)moduleableBuild.block).tags.contains(tag) || tag == "universal"));
     }
 
     public class ModuleBuild extends Building {
         public @Nullable Building linkedBuild;
+
+        public void effect(Building build, Block block) {}
 
         @Override
         public void onRemoved() {

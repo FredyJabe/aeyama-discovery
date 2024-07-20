@@ -8,7 +8,6 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
 
 import aeyama.world.block.*;
-import aeyama.world.block.module.*;
 
 import static mindustry.type.ItemStack.*;
 
@@ -16,7 +15,7 @@ public class AeyamaBlocks {
     public static Block
     basicCutter, basicMiner,
 
-    moduleTest, moduleableTest, moduleableTestTwo, moduleableTestThree, moduleableFour,
+    moduleTest, moduleTestTwo, moduleTestTwooo, moduleableTest,
 
     floorStoneSlate, floorStoneGranite, floorStoneLimestone, floorStoneSandstone,
     floorStoneMarble,
@@ -28,6 +27,22 @@ public class AeyamaBlocks {
             health = 20;
             size = 1;
 
+            tag = "efficiency";
+
+            requirements(Category.effect, with(Items.copper, 1));
+        }};
+        moduleTestTwooo = new ModuleBlock("module-testt") {{
+            health = 20;
+            size = 1;
+
+            requirements(Category.effect, with(Items.copper, 1));
+        }};
+        moduleTestTwo = new ModuleBlock("module-testtttt") {{
+            health = 20;
+            size = 1;
+
+            tag = "koejrfezoeigjosejengkzjne";
+
             requirements(Category.effect, with(Items.copper, 1));
         }};
         
@@ -35,25 +50,9 @@ public class AeyamaBlocks {
             health = 50;
             size = 3;
 
+            tags.add("efficiency");
+
             requirements(Category.effect, with(Items.copper, 1));
-        }};
-        moduleableTestTwo = new ModuleableBlock("moduleable-test-two", 2) {{
-            health = 50;
-            size = 2;
-
-            requirements(Category.effect, with(Items.copper, 102));
-        }};
-        moduleableTestThree = new ModuleableBlock("moduleable-test-three", 5) {{
-            health = 50;
-            size = 4;
-
-            requirements(Category.effect, with(Items.copper, 3));
-        }};
-        moduleableFour = new ModuleableBlock("modueable-test-four", 5) {{
-            health = 50;
-            size = 5;
-
-            requirements(Category.effect, with(Items.copper, 3));
         }};
 
         //#region Production
