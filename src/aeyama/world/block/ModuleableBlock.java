@@ -144,6 +144,19 @@ public class ModuleableBlock extends Block {
                    && modules.size < moduleSlots && !modules.contains(module);
         }
 
+        //TODO give back modules resources? (if not already done, didnt test)
+        @Override
+        public void onRemoved() {
+            int modulesSize = modules.size;
+            for (int i=0; i < modulesSize; i++) {
+                // 0 to avoid IndexOutOfBound, the element are removed from the list after they are removed from map.
+                ModuleBuild module = modules.get(0);
+                module.tile.remove();
+            }
+
+            super.onRemoved();
+        }
+
         @Override
         public void draw() {
             drawer.draw(this);

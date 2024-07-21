@@ -46,7 +46,8 @@ public class ModuleBlock extends Block {
         }
 
         return tileAround.contains(o -> o.build instanceof ModuleableBuild moduleableBuild
-                                        && (((ModuleableBlock)moduleableBuild.block).tags.contains(tag) || tag == "universal"));
+                                        && (((ModuleableBlock)moduleableBuild.block).tags.contains(tag) || tag == "universal")
+                                        && moduleableBuild.modules.size < ((ModuleableBlock)moduleableBuild.block).moduleSlots);
     }
 
     public class ModuleBuild extends Building {
