@@ -116,12 +116,21 @@ public class ModuleableBlock extends Block {
     public class ModuleableBuild extends Building {
         public Seq<ModuleBuild> modules = new Seq<ModuleBuild>();
 
+        public void setBackVariables() {
+
+        }
+
         @Override
         public void onProximityUpdate() {
             proximity.each(this::isModule, module -> {
                 ((ModuleBuild)module).linkedBuild = this;
                 modules.add((ModuleBuild)module);
             });
+
+            setBackVariables();
+            for (ModuleBuild module : modules) {
+                module.effect(this, this.block);
+            }
 
             super.onProximityUpdate();
         }
@@ -133,13 +142,6 @@ public class ModuleableBlock extends Block {
         public boolean isModule(Building build, Building tile) {
             return tile instanceof ModuleBuild module && (module.linkedBuild == this || module.linkedBuild == null)
                    && modules.size < moduleSlots && !modules.contains(module);
-        }
-
-        @Override
-        public void updateTile() {
-            for (ModuleBuild module : modules) {
-                module.effect(this, this.block);
-            }
         }
 
         @Override

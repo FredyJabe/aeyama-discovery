@@ -8,6 +8,8 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
 
 import aeyama.world.block.*;
+import aeyama.world.block.module.*;
+import aeyama.world.block.storage.*;
 
 import static mindustry.type.ItemStack.*;
 
@@ -37,20 +39,22 @@ public class AeyamaBlocks {
 
             requirements(Category.effect, with(Items.copper, 1));
         }};
-        moduleTestTwo = new ModuleBlock("module-testtttt") {{
+        moduleTestTwo = new ModuleStorage("module-testtttt") {{
             health = 20;
             size = 1;
 
-            tag = "koejrfezoeigjosejengkzjne";
+            tag = "storage";
 
             requirements(Category.effect, with(Items.copper, 1));
         }};
         
-        moduleableTest = new ModuleableBlock("moduleable-test", 3) {{
+        moduleableTest = new ModuleableStorageBlock("moduleable-test", 3) {{
             health = 50;
             size = 3;
 
-            tags.add("efficiency");
+            itemCapacity = 100;
+
+            tags.add("storage");
 
             requirements(Category.effect, with(Items.copper, 1));
         }};
