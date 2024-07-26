@@ -1,4 +1,4 @@
-package aeyama.world.block;
+package aeyama.world.blocks;
 
 import arc.struct.*;
 import arc.util.*;
@@ -8,7 +8,7 @@ import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 
-import aeyama.world.block.ModuleableBlock.*;
+import aeyama.world.blocks.ModuleableBlock.*;
 
 public class ModuleBlock extends Block {
     /** Filter for ModuleableBlock, 'universal' for all.  */

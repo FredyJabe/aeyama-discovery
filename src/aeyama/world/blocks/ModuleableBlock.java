@@ -1,4 +1,4 @@
-package aeyama.world.block;
+package aeyama.world.blocks;
 
 import arc.*;
 import arc.graphics.g2d.*;
@@ -11,7 +11,7 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 
-import aeyama.world.block.ModuleBlock.*;
+import aeyama.world.blocks.ModuleBlock.*;
 
 import static mindustry.Vars.tilesize;
 

@@ -1,4 +1,4 @@
-package aeyama.world.block.storage;
+package aeyama.world.blocks.storage;
 
 import arc.math.*;
 import arc.struct.*;
@@ -11,7 +11,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.meta.*;
 
-import aeyama.world.block.*;
+import aeyama.world.blocks.*;
 
 import static mindustry.Vars.*;
 

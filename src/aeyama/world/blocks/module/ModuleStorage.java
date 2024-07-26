@@ -1,11 +1,10 @@
-package aeyama.world.block.module;
+package aeyama.world.blocks.module;
 
 import mindustry.gen.*;
 import mindustry.world.*;
 
-import aeyama.world.block.*;
-import aeyama.world.block.storage.*;
-import aeyama.world.block.storage.ModuleableStorageBlock.*;
+import aeyama.world.blocks.*;
+import aeyama.world.blocks.storage.ModuleableStorageBlock.*;
 
 public class ModuleStorage extends ModuleBlock {
 
